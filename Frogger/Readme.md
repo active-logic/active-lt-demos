@@ -1,8 +1,9 @@
 # Active-LT - Frogger tutorial
 
-This is a simple tutorial to familiarize yourself with Behavior Trees and the Active-LT library. In this tutorial we are going to procedurally animate a simple "frog", as follows:
-- The frog (in our case a simple cube) is jumping forward.
-- Upon hitting a wall ahead, the frog has ended her journey and her task is 'complete'.
+This is a simple tutorial to familiarize yourself with Behavior Trees and the Active-LT library. In this tutorial we are going to procedurally animate a simple "frog".
+
+- The frog is jumping forward.
+- Upon hitting a wall ahead, the frog has ended her journey and her task is *complete*.
 
 ## Setup
 
@@ -17,7 +18,7 @@ This is a simple tutorial to familiarize yourself with Behavior Trees and the Ac
 
 ## Jumping
 
-Next we create a script named `Frogger.cs` with the following content:
+Let's create a script named `Frogger.cs` -
 
 ```cs
 using UnityEngine;
@@ -37,11 +38,11 @@ public class Frogger : MonoBehaviour{
 }
 ```
 
-Add the script to the 'Frogger' object (the small green cube) then press play and verify that nothing happens and no errors are seen.
+Add the script to the 'Frogger' object (small green cube); play and verify nothing happens, no errors.
 
-When working with behavior trees, we use *tasks*. A task may return `fail`, `cont` or `done`. In this case `Jump` is just an empty task, and it completes immediately. So, we return `done`.
+When working with behavior trees, we use *tasks*. A task may return `fail`, `cont` or `done`. In this case `Jump` is an empty task which completes immediately; so, we return `done`.
 
-We want to propel the frog whenever it is idle, so we change the jump function as follows:
+Modify the jump function:
 
 ```cs
 status Jump(){
@@ -54,9 +55,9 @@ status Jump(){
 }
 ```
 
-Next, add a *Rigidbody* component to the Frogger object; press play.
+Next, add a *Rigidbody* component to the Frogger object; press play and observe. You should see the frog leaping in place, without moving left or right.
 
-Actually we'd like the Frog to move forward. So we'll make the impulse vector configurable:
+Since we want the Frog to move forward we make the impulse vector configurable:
 
 ```cs
 public class Frogger : MonoBehaviour{
@@ -80,7 +81,7 @@ public class Frogger : MonoBehaviour{
 }
 ```
 
-Upon pressing play, our 'frog' is indeed jumping forward until they hit the wall. This method is not precise (because of how physics interact with the update loop), so you may get small or bigger jumps.
+Upon playing, our frog is leaping forward until she hits the wall. This method is not precise (because of how physics interact with the update loop) so you get small and bigger jumps.
 
 ![alt text](Images/Hop.png)
 
@@ -118,7 +119,9 @@ public class Frogger : MonoBehaviour{
 }
 ```
 
-At this stage we are differentiating the *running* state (cont) from the *complete* state (done); however there is still no change in how the frog behaves. Let's fix that by changing the `Update` function:
+Notice how Frogger does not directly respond to the collision. In our case the collision provides a stimulus, and we use control state (`didCollid`) to integrate with the status function.
+
+We are now differentiating the *running* state (cont) from the *complete* state (done); however there is still no change to how the frog behaves. Let's fix that by changing the `Update` function:
 
 ```cs
 void Update(){
@@ -127,4 +130,93 @@ void Update(){
 }
 ```
 
-Press play and observe; once the frog has reached the wall, the behavior is disabled, and the frog stop jumping.
+Press play and observe; once the frog has reached the wall, the behavior is disabled, and the frog stops jumping.
+
+## Failing
+
+We have created a simple task using the `cont` (running) and `done` statuses. Let's handle an obvious failure case: what if Frogger fall off the map? Modify the Jump task:
+
+```cs
+status Jump(){
+    var body     = GetComponent<Rigidbody>();
+    var speed    = body.velocity.magnitude;
+    if(transform.position.y < -1f){
+        body.isKinematic = true;
+        body.velocity = Vector3.zero;
+        return fail;
+    }
+    if(speed <= 1e-6f){
+        body.AddForce(impulse, ForceMode.Impulse);
+    }
+    // Return the `done` state on collide (3)
+    return didCollide ? done : cont;
+}
+```
+
+Also change the `Update` function:
+
+```cs
+void Update(){
+    state = Jump();
+    if(!state.running) enabled = false;
+}
+```
+
+To test this change 'impulse' to (1, 3, -1) in the Frogger inspector and press play; Frogger stops once the failure condition is fulfilled.
+
+![alt text](Images/Fail.png)
+
+Here is the complete source for our sample behavior:
+
+```cs
+using UnityEngine;
+using Active.Core;
+using static Active.Raw;
+
+public class Frogger : MonoBehaviour{
+
+    public Vector3 impulse = new Vector3(1f, 3f, 0f);
+    status state;
+    bool didCollide = false;
+
+    void Update(){
+        state = Jump();
+        if(!state.running) enabled = false;
+    }
+
+    status Jump(){
+        var body     = GetComponent<Rigidbody>();
+        var speed    = body.velocity.magnitude;
+        if(transform.position.y < -1f){
+            body.isKinematic = true;
+            return fail;
+        }
+        if(speed <= 1e-6f){
+            body.AddForce(impulse, ForceMode.Impulse);
+        }
+        // Return the `done` state on collide (3)
+        return didCollide ? done : cont;
+    }
+
+    void OnCollisionEnter(Collision x){
+        if(x.collider.gameObject.name == "Wall"){
+            didCollide = true;
+        }
+    }
+
+}
+```
+
+## What we learned
+
+- In BT, tasks are running, complete or failing.
+- With active logic (AL), tasks may be described using *status functions*.
+- AL easily integrates with `MonoBehaviour`; while the library offers other choices for managing your BTs, stateless AL really can be used anywhere in your logic.
+
+Although BTs are geared towards so called *sequences* and *selectors*, ***status* is the foundation**. Using statuses, you start thinking in terms of tasks having a complete/running/failing state.
+
+Although Active Logic provides a correct, standard implementation of BT, it does not require creating a new class/object for every atomic task. A status function is a task.
+
+## Coming next
+
+In the next part we'll flex AL muscle and see how complex BTs are created by *composing* tasks. We will also do away with boiler plate by adopting `UGig`, which is a subclass of `MonoBehaviour`

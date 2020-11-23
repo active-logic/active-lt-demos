@@ -10,15 +10,20 @@ public class Frogger : MonoBehaviour{
 
     void Update(){
         state = Jump();
-        if(state.complete) enabled = false;
+        if(!state.running) enabled = false;
     }
 
     status Jump(){
-        var body  = GetComponent<Rigidbody>();
-        var speed = body.velocity.magnitude;
+        var body     = GetComponent<Rigidbody>();
+        var speed    = body.velocity.magnitude;
+        if(transform.position.y < -1f){
+            body.isKinematic = true;
+            return fail;
+        }
         if(speed <= 1e-6f){
             body.AddForce(impulse, ForceMode.Impulse);
         }
+        // Return the `done` state on collide (3)
         return didCollide ? done : cont;
     }
 
