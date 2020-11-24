@@ -4,11 +4,12 @@ using static Active.Raw;
 
 public class NastyBall: UGig{
 
-    public float traction = 5;
+    public float traction = 20;
 
     override public status Step(){
+        var u = Random.onUnitSphere; u.y *= 0.1f;
         GetComponent<Rigidbody>().AddForce(
-            Random.onUnitSphere * traction,
+            u * traction,
             ForceMode.Impulse
         );
         return cont;

@@ -225,7 +225,7 @@ Testing, observe that, while near the crop, Frogger's hunger decrases until it r
 
 Our implementation of the feeding/metabolic process is not very neat. Hunger should increase over time (functional bug). Also, adding variables to the controller is not good practice. Still, we are doing good! Let's push our luck.
 
-## Nasty ball of dark
+## Nasty Ball of Dark
 
 Every hero has an archenemy. Likewise Frogger is constantly threatened by a powerful, evil foe. Create a nasty ball of dark as illustrated. We also add "walls" around the game area (or the ball will fall off).
 
@@ -241,13 +241,12 @@ using static Active.Raw;
 
 public class NastyBall: UGig{
 
-    public float traction = 5;
+    public float traction = 20;
 
     override public status Step(){
+        var u = Random.onUnitSphere; u.y *= 0.1f;
         GetComponent<Rigidbody>().AddForce(
-            Random.onUnitSphere * traction,
-            ForceMode.Impulse
-        );
+                                  u * traction, ForceMode.Impulse);
         return cont;
     }
 
@@ -265,6 +264,40 @@ Similar to agents, tickers drive the behavior tree. The difference is that a tic
 
 ## A run for it
 
-We will now implement the "dodge" task...
+We will now implement the "dodge" task:
+
+```cs
+status Dodge(){
+    var foe = GameObject.Find("NastyBall").transform;
+    var u = transform.position - foe.position;
+    var dist = u.magnitude;
+    toFoe = dist;
+    if(dist > 3f) return done;
+    u.y = 0f;
+    u.Normalize();
+    body.AddForce(u * traction * 3f);
+    return cont;
+}
+```
+
+Intuitively `Dodge` should return *done* if we safely avoided the obstacle. However this is going to break our selector; consider this:
+
+```cs
+status Step() => Dodge() || Feed() || Spawn();
+```
+
+Clearly, if `Dodge` is done, the selector will short and later functions will not be called.
+
+Resist the idea of returning an ad-hoc status from Dodge; this will only confuse things later on. Instead, flip the returned status:
+
+```cs
+status Step() => -Dodge() || Feed() || Spawn();
+```
+
+Press play.
+
+![alt text](Images/Chase.png)
+
+## Grow and Multiply!
 
 [TBC]
