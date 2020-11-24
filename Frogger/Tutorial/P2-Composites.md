@@ -21,6 +21,7 @@ Let's ditch `MonoBehaviour`; just keep in mind AL works with `MonoBehaviour` and
 Rename `Frogger.cs` to `FroggerZero.cs`. Next re-create a file named `Frogger.cs`.
 
 ```cs
+// Frogger.cs
 using UnityEngine;
 using Active.Core;
 using static Active.Raw;
@@ -228,30 +229,42 @@ Our implementation of the feeding/metabolic process is not very neat. Hunger sho
 
 Every hero has an archenemy. Likewise Frogger is constantly threatened by a powerful, evil foe. Create a nasty ball of dark as illustrated. We also add "walls" around the game area (or the ball will fall off).
 
-[SETUP]
+![alt text](Images/NastySet.png)
 
-Promptly we create a `Foe` script:
+Promptly, create a `NastyBall.cs` script:
 
 ```cs
-public class Foe: Gig{
+// NastyBall.cs
+using UnityEngine;
+using Active.Core;
+using static Active.Raw;
 
-    public float traction = 10;
+public class NastyBall: UGig{
 
-    status Step(){
+    public float traction = 5;
+
+    override public status Step(){
         GetComponent<Rigidbody>().AddForce(
-            transform.forward, ForceMode.Impulse);
-            return cont;
+            Random.onUnitSphere * traction,
+            ForceMode.Impulse
+        );
+        return cont;
     }
 
 }
 ```
 
-Attach a rigid body to the nasty ball. Also add the `Foe` and a `Ticker` component. Set the ticker's interval to 5f and let's play.
+Attach a rigid body to the nasty ball. Also add the `Foe` and a `Ticker` component. Configure the ticker:
 
-[RESULT]
+- *repeat rate: 5* (Run every 5 seconds)
+- *first time: 1* (Wait 1 second on start)
 
-Similar to agents, tickers drive the behavior tree. The difference is that a ticker fires at arbitrary intervals (here, every 5 seconds).
+![alt text](Images/Nasty.png)
+
+Similar to agents, tickers drive the behavior tree. The difference is that a ticker fires at arbitrary intervals.
 
 ## A run for it
 
-We will now implement the "dodge" task.
+We will now implement the "dodge" task...
+
+[TBC]
