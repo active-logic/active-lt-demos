@@ -2,7 +2,7 @@
 
 This is a 3 parts tutorial designed to help users get familiar with stateless behavior trees via Active LT.
 
-**[P1: Tasks and statuses](Tutorial/P1-status.md)**
+**[P1: Tasks and statuses](Tutorial/P1-Status.md)**
 
 → Create a simple "jumping frog"; understand tasks and statuses.
 
