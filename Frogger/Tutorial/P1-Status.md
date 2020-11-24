@@ -1,4 +1,4 @@
-# Active-LT - Frogger tutorial
+# Frogger tutorial P1: Tasks and statuses
 
 This is a simple tutorial to familiarize yourself with Behavior Trees and the Active-LT library. In this tutorial we are going to procedurally animate a simple "frog".
 

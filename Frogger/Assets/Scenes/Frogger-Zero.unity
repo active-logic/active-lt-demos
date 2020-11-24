@@ -498,7 +498,6 @@ GameObject:
   - component: {fileID: 2030425505}
   - component: {fileID: 2030425506}
   - component: {fileID: 2030425504}
-  - component: {fileID: 2030425507}
   m_Layer: 0
   m_Name: Frogger
   m_TagString: Untagged
@@ -589,10 +588,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2030425499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c744730b497844689cf96b1ba956f68, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c203891d2ddd4954943fdf0d79edc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  traction: 10
+  impulse: {x: 1, y: 3, z: 0}
 --- !u!54 &2030425505
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -706,24 +705,3 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &2030425507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030425499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df8a614d5308d4e76b93d53218b17405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  root: {fileID: 0}
-  loop: 1
-  leniency: 1
-  log: 
-  enableLogging: 0
-  useHistory: 0
-  useBreakpoints: 1
-  step: 0
-  breaks: []
