@@ -14,10 +14,10 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_Fog: 1
+  m_FogColor: {r: 0.7372549, g: 0.09411764, b: 0.7104941, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.01
+  m_FogDensity: 0.034
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
@@ -149,7 +149,7 @@ Transform:
   m_GameObject: {fileID: 558583965}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.5, z: 5}
-  m_LocalScale: {x: 0.2, y: 1, z: 12}
+  m_LocalScale: {x: 0.2, y: 1.5, z: 12}
   m_Children: []
   m_Father: {fileID: 2003843064}
   m_RootOrder: 2
@@ -473,7 +473,7 @@ Transform:
   m_GameObject: {fileID: 770094150}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.2, y: 1, z: 11}
+  m_LocalScale: {x: 0.2, y: 1.5, z: 11}
   m_Children: []
   m_Father: {fileID: 2003843064}
   m_RootOrder: 0
@@ -506,7 +506,7 @@ Transform:
   m_GameObject: {fileID: 890957492}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.5, z: -5}
-  m_LocalScale: {x: 0.2, y: 1, z: 12}
+  m_LocalScale: {x: 0.2, y: 1.5, z: 12}
   m_Children: []
   m_Father: {fileID: 2003843064}
   m_RootOrder: 3
@@ -776,7 +776,7 @@ Transform:
   m_GameObject: {fileID: 1554671229}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -5, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.2, y: 1, z: 12}
+  m_LocalScale: {x: 0.2, y: 1.5, z: 12}
   m_Children: []
   m_Father: {fileID: 2003843064}
   m_RootOrder: 1
@@ -856,6 +856,7 @@ GameObject:
   - component: {fileID: 1699707344}
   - component: {fileID: 1699707338}
   - component: {fileID: 1699707343}
+  - component: {fileID: 1699707345}
   m_Layer: 0
   m_Name: NastyBall
   m_TagString: Untagged
@@ -875,7 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95100b739601c41528945ac2b3f4f7c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  traction: 5
+  traction: 10
 --- !u!135 &1699707339
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -944,8 +945,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1699707337}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.42, y: 0.5, z: 1.6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 2.42, y: 1, z: 1.6}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
@@ -972,7 +973,7 @@ MonoBehaviour:
   step: 0
   breaks: []
   firstTime: 1
-  repeatRate: 5
+  repeatRate: 2
 --- !u!54 &1699707344
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -989,6 +990,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!122 &1699707345
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699707337}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4279107963
+  m_Size: 1.8
 --- !u!1 &2003843063
 GameObject:
   m_ObjectHideFlags: 0
@@ -1039,6 +1052,7 @@ GameObject:
   - component: {fileID: 2030425506}
   - component: {fileID: 2030425504}
   - component: {fileID: 2030425507}
+  - component: {fileID: 2030425508}
   m_Layer: 0
   m_Name: Frogger
   m_TagString: Untagged
@@ -1132,6 +1146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c744730b497844689cf96b1ba956f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  clone: {fileID: 0}
+  eggs: 1
   traction: 10
   hunger: 100
 --- !u!54 &2030425505
@@ -1268,3 +1284,15 @@ MonoBehaviour:
   useBreakpoints: 1
   step: 0
   breaks: []
+--- !u!122 &2030425508
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2030425499}
+  m_Enabled: 1
+  m_Color:
+    serializedVersion: 2
+    rgba: 4279448356
+  m_Size: 0.4

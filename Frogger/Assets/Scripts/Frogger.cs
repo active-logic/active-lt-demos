@@ -4,21 +4,23 @@ using static Active.Raw;
 
 public class Frogger : UGig{
 
-    Rigidbody body;
+    static int id = 0;
+    //
+    public GameObject clone;
+    public int eggs = 1;
     public float traction = 10;
     public int hunger = 100;
-    public float toFoe;
+    //
+    Rigidbody body;
 
-    override public status Step(){
-        return -Dodge() || Feed() || Spawn();
-    }
+    override public status Step()
+    => Dodge() && Feed() && Spawn();
 
     status Dodge(){
         var foe = GameObject.Find("NastyBall").transform;
         var u = transform.position - foe.position;
         var dist = u.magnitude;
-        toFoe = dist;
-        if(dist > 3f) return fail;
+        if(dist > 3f) return done;
         u.y = 0f;
         u.Normalize();
         body.AddForce(u * traction * 3f);
@@ -26,6 +28,7 @@ public class Frogger : UGig{
     }
 
     status Feed (){
+        if(hunger == 0) return done;
         var food = GameObject.FindWithTag("Food").transform;
         if(food){
             return Reach(food) && Consume(food);
@@ -34,7 +37,14 @@ public class Frogger : UGig{
         }
     }
 
-    status Spawn() => fail;
+    status Spawn(){
+        if(eggs == 0) return fail;
+        clone.transform.position =
+            transform.position + Vector3.right * 0.1f;
+        clone.SetActive(true);
+        if(--eggs > 1) clone = Clone(clone);
+        return done;
+    }
 
     status Reach(Transform target){
         var u = target.position - transform.position;
@@ -54,7 +64,15 @@ public class Frogger : UGig{
     }
 
     void Start(){
+        clone = Clone(gameObject);
         body = GetComponent<Rigidbody>();
+    }
+
+    GameObject Clone(GameObject original){
+        clone = Instantiate(original);
+        clone.name = $"Frogger #{++id}";
+        clone.SetActive(false);
+        return clone;
     }
 
 }
