@@ -5,23 +5,19 @@ using static Active.Raw;
 public class Frogger : UGig{
 
     FroggerModel model;
+    FroggerAp    ap;
 
     override public status Step()
     => Dodge() && Feed() && Spawn();
 
     status Dodge(){
-        var foe = GameObject.Find("NastyBall").transform;
-        var u = transform.position - foe.position;
-        var dist = u.magnitude;
-        if(dist > 3f) return done;
-        u.y = 0f;
-        u.Normalize();
-        return -model.Propel(u * 3f);
+        var u = ap.DodgeVector();
+        return u == Vector3.zero ? done : -model.Propel(u * 3f);
     }
 
-    status Feed (){
+    status Feed(){
         if(!model.hungry) return done;
-        var food = GameObject.FindWithTag("Food").transform;
+        var food = ap.food;
         if(food){
             return Reach(food) && -model.Feed();
         }else{
@@ -48,6 +44,7 @@ public class Frogger : UGig{
 
     void Start(){
         model = GetComponent<FroggerModel>();
+        ap = gameObject.AddComponent<FroggerAp>();
     }
 
 }

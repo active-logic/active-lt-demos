@@ -82,4 +82,57 @@ The `-` operator demotes a status value so that `done` becomes `cont` and `cont`
 
 ## Separating apperception from control
 
-[TBC]
+From a performance perspective, one of costlier aspects in game AI is apperception - the process of converting raw sensor sensor input to a simple representation that control can handle.
+
+In the Frogger demo apperception is much simplified. For example we just assume that there is only *one* obstacle to avoid (the nasty ball). Still, code related to detecting objects of interest and measuring distances is not directly relevant to control. As such it only adds clutter to the BT. Another issue is, if we want to improve performance, running apperception at a slower frame rate is a good choice. But we still want to run the control layer at the normal frame rate.
+
+Let's factor perception/apperception related code into a separate class:
+
+```cs
+// FroggerAp.cs
+using UnityEngine;
+
+public class FroggerAp : MonoBehaviour{
+
+    public Vector3 DodgeVector(){
+        var foe = GameObject.Find("NastyBall").transform;
+        var u = transform.position - foe.position;
+        var dist = u.magnitude;
+        if(dist > 3f) return Vector3.zero;
+        return u.normalized;
+    }
+
+    public Transform food
+    => GameObject.FindWithTag("Food").transform;
+
+}
+```
+
+Then, the refactor of matching tasks:
+
+```cs
+public class Frogger : UGig{
+
+    // ...
+
+    status Dodge(){
+        var u = ap.DodgeVector();
+        return u == Vector3.zero ? done : -model.Propel(u * 3f);
+    }
+
+    status Feed(){
+        if(!model.hungry) return done;
+        var food = ap.food;
+        if(food){
+            return Reach(food) && -model.Feed();
+        }else{
+            return fail;
+        }
+    }
+
+    // ...
+
+}
+```
+
+For good measure we'll now illustrate how apperception can run at a lower frame rate.
