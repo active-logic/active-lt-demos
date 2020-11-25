@@ -4,7 +4,6 @@ using static Active.Raw;
 
 public class Frogger : UGig{
 
-    Rigidbody body;
     FroggerModel model;
 
     override public status Step()
@@ -17,12 +16,12 @@ public class Frogger : UGig{
         if(dist > 3f) return done;
         u.y = 0f;
         u.Normalize();
-        body.AddForce(u * model.traction * 3f);
+        model.Propel(u * 3f);
         return cont;
     }
 
     status Feed (){
-        if(model.hunger == 0) return done;
+        if(!model.hungry) return done;
         var food = GameObject.FindWithTag("Food").transform;
         if(food){
             return Reach(food) && Consume(food);
@@ -32,11 +31,9 @@ public class Frogger : UGig{
     }
 
     status Spawn(){
-        if(model.eggs == 0) return fail;
         var clone = model.Clone();
-        clone.transform.position =
-            transform.position + Vector3.right * 0.1f;
-        clone.SetActive(true);
+        if(!clone) return fail;
+        clone.position = transform.position + Vector3.right * 0.1f;
         return done;
     }
 
@@ -44,22 +41,19 @@ public class Frogger : UGig{
         var u = target.position - transform.position;
         var dist = u.magnitude;
         if(dist < 1f) return done;
-        if(body.velocity.magnitude <= 1e-6f){
-            body.AddForce(u * 0.2f + Vector3.up * 2,
-                          ForceMode.Impulse);
+        if(model.speed <= 1e-6f){
+            model.Impel(u * 0.02f + Vector3.up * 0.2f);
         }
         return cont;
     }
 
     status Consume(Transform obj){
-        if(model.hunger <= 0 ) return done;
-        model.hunger--;
+        model.Feed();
         return cont;
     }
 
     void Start(){
         model = GetComponent<FroggerModel>();
-        body = GetComponent<Rigidbody>();
     }
 
 }
