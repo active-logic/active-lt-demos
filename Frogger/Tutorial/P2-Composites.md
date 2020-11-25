@@ -49,6 +49,8 @@ In your setup scene ensure Frogger uses the new 'Frogger' script; press play and
 
 ![alt text](Images/Roll.png)
 
+Note: *for simplicity, throughout this tutorial we apply forces via the update loop; this should be avoided, as forces are normally applied via fixed updates (physics loop).*
+
 ## Top-down design
 
 Now that we have a working setup we sketch our AI 'top down' starting with an empty implementation of each high level task.
@@ -372,4 +374,4 @@ When designing tasks, ensure the returned status makes intuitive sense. Use `!` 
 
 ## Coming next
 
-While our implementation is *relatively* concise (78 loc) mixing state and control is not very good. In the next session we clean our act and refactor `Frogger` for performance and modularity.
+While our implementation is *relatively* concise (78 loc) mixing state and control is not good. In the next session we clean our act and refactor `Frogger` for performance and modularity.

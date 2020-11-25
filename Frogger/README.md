@@ -6,11 +6,11 @@ This is a 3 parts tutorial designed to help users get familiar with stateless be
 
 → Create a simple "jumping frog"; understand tasks and statuses.
 
-**[P2: Frog Life](Tutorial/P2-Composites.md)** [IN PROGRESS]
+**[P2: Frog Life](Tutorial/P2-Composites.md)**
 
 → Our jumping frog now feeds, self-reproduces and avoids immediate threats; understand tickers, sequences and selectors
 
-**P3: Design for performance and modularity** [PLANNED]
+**[P3: Design for performance and modularity](Tutorial/P3-Separation.md)**
 
 → Separating control, state and apperception.
 

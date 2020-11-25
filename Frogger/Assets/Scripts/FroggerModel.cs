@@ -14,6 +14,7 @@ public class FroggerModel : MonoBehaviour{
 
     public float speed => body.velocity.magnitude;
     public bool hungry => hunger > 0;
+    public bool isIdle => speed < 1e-6;
 
     public action Feed(){
         hunger--;

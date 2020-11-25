@@ -10,20 +10,13 @@ public class Frogger : UGig{
     override public status Step()
     => Dodge() && Feed() && Spawn();
 
-    status Dodge(){
-        var u = ap.DodgeVector();
-        return u == Vector3.zero ? done : -model.Propel(u * 3f);
-    }
+    status Dodge()
+    => (ap.dodgeVector == Vector3.zero) ? done :
+       -model.Propel(ap.dodgeVector * 3f);
 
-    status Feed(){
-        if(!model.hungry) return done;
-        var food = ap.food;
-        if(food){
-            return Reach(food) && -model.Feed();
-        }else{
-            return fail;
-        }
-    }
+    status Feed()
+    => !model.hungry
+    || ((ap.food!=null) && Reach(ap.food) && -model.Feed());
 
     status Spawn(){
         var clone = model.Clone();
@@ -32,15 +25,10 @@ public class Frogger : UGig{
         return done;
     }
 
-    status Reach(Transform target){
-        var u = target.position - transform.position;
-        var dist = u.magnitude;
-        if(dist < 1f) return done;
-        if(model.speed <= 1e-6f){
-            return -model.Impel(u * 0.02f + Vector3.up * 0.2f);
-        }
-        return cont;
-    }
+    status Reach(Transform target)
+    => (ap.Distance(target) < 1f) ? done :
+       (model.speed > 1e-6f)      ? cont :
+       -model.Impel(ap.JumpVector(target));
 
     void Start(){
         model = GetComponent<FroggerModel>();
