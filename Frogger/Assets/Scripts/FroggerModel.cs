@@ -1,4 +1,6 @@
 using UnityEngine;
+using Active.Core;
+using static Active.Raw;
 
 public class FroggerModel : MonoBehaviour{
 
@@ -13,8 +15,9 @@ public class FroggerModel : MonoBehaviour{
     public float speed => body.velocity.magnitude;
     public bool hungry => hunger > 0;
 
-    public void Feed(){
+    public action Feed(){
         hunger--;
+        return @void;
     }
 
     public Transform Clone(){
@@ -25,11 +28,15 @@ public class FroggerModel : MonoBehaviour{
         return c.transform;
     }
 
-    public void Propel(Vector3 u)
-    => body.AddForce(u * traction);
+    public action Propel(Vector3 u){
+        body.AddForce(u * traction);
+        return @void;
+    }
 
-    public void Impel(Vector3 u)
-    => body.AddForce(u * traction, ForceMode.Impulse);
+    public action Impel(Vector3 u){
+        body.AddForce(u * traction, ForceMode.Impulse);
+        return @void;
+    }
 
     // =============================================================
 

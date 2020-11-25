@@ -16,15 +16,14 @@ public class Frogger : UGig{
         if(dist > 3f) return done;
         u.y = 0f;
         u.Normalize();
-        model.Propel(u * 3f);
-        return cont;
+        return -model.Propel(u * 3f);
     }
 
     status Feed (){
         if(!model.hungry) return done;
         var food = GameObject.FindWithTag("Food").transform;
         if(food){
-            return Reach(food) && Consume(food);
+            return Reach(food) && -model.Feed();
         }else{
             return fail;
         }
@@ -42,13 +41,8 @@ public class Frogger : UGig{
         var dist = u.magnitude;
         if(dist < 1f) return done;
         if(model.speed <= 1e-6f){
-            model.Impel(u * 0.02f + Vector3.up * 0.2f);
+            return -model.Impel(u * 0.02f + Vector3.up * 0.2f);
         }
-        return cont;
-    }
-
-    status Consume(Transform obj){
-        model.Feed();
         return cont;
     }
 

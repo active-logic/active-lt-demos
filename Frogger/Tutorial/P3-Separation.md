@@ -45,3 +45,41 @@ Of course we need to adjust `Frogger` accordingly. You can see how this was done
 We also migrated the details of cloning Frogger because this does not partake the BT.
 
 Next we hide model variables for better encapsulation (see (diff)[PENDING]).
+
+## Cleaner BT using actions.
+
+In AL, an `action` is equivalent to the `done` status. We can use this to clean the BT and simplify our logic.
+
+Let's take an example to illustrate. `FroggerModel.Propel` returns `void`. We'll replace `void` with `action`:
+
+```cs
+public action Propel(Vector3 u){
+    body.AddForce(u * traction);
+    return @void;
+}
+```
+
+We now simplify the `Dodge` task - before:
+
+```cs
+status Dodge(){
+    // ...
+    model.Propel(u * 3f);
+    return cont;
+}
+```
+
+After:
+
+```cs
+status Dodge(){
+    // ...
+    return -model.Propel(u * 3f);
+}
+```
+
+The `-` operator demotes a status value so that `done` becomes `cont` and `cont` becomes `fail`.
+
+## Separating apperception from control
+
+[TBC]
