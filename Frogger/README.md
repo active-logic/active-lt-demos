@@ -10,6 +10,10 @@ This is a 3 parts tutorial designed to help users get familiar with stateless be
 
 → Our jumping frog now feeds, self-reproduces and avoids immediate threats; understand tickers, sequences and selectors
 
-**P3: Self-Awareness** [PLANNED]
+**P3: Design for performance and modularity** [PLANNED]
 
-→  Worship the Stone; understand the logging API.
+→ Separating control, state and apperception.
+
+**P4: Self-Awareness** [PLANNED]
+
+→ Worship the Stone; understand the logging API.
