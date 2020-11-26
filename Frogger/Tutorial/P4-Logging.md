@@ -84,13 +84,13 @@ In addition to visual logging, Active-LT and Active Logic also support visual hi
 
 ## Logging and visual history without the logging API
 
-If you do not want to use the logging API, the Prolog package offers similar functionality. Prolog instruments your assemblies on the fly. It is a standalone debugging tool, and as such does not specifically target BTs.
+If you do not want to use the logging API, the [Prolog package](https://github.com/active-logic/prolog) (free) offers similar functionality. Prolog instruments your assemblies on the fly. It is a standalone debugging tool, and as such does not specifically target BTs.
 
-Instrumentation may be added to AL at a later date. If you are looking forward to this feature, please upvote issue #NN and consider offering a sponsorship.
+Logging automation may be added to AL at a later date. If you are looking forward to this feature, [upvote issue #62](https://github.com/active-logic/activelogic-cs/issues/62) <!-- and consider offering a sponsorship. -->
 
 ## Bonus stage: Worship the Stone
 
-[not available just yet]
+[Pending a complete investigation of the Utah Monolith](https://www.theguardian.com/us-news/2020/nov/24/monolith-utah-theories-what-is-it-mystery).
 
 <!--
 
