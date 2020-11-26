@@ -1275,7 +1275,7 @@ MonoBehaviour:
   loop: 1
   leniency: 1
   log: 
-  enableLogging: 0
+  enableLogging: 1
   useHistory: 0
   useBreakpoints: 1
   step: 0
@@ -1292,7 +1292,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e6c58bdacaf74e34bb24a599adedac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clone: {fileID: 0}
-  eggs: 1
-  traction: 10
-  hunger: 100
