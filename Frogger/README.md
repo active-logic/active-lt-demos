@@ -14,6 +14,8 @@ This is a 3 parts tutorial designed to help users get familiar with stateless be
 
 → Separating control, state and apperception.
 
-**P4: Self-Awareness** [PLANNED]
+**[P4: Self-Awareness](Tutorial/P4-Logging.md)** [PREVIEW]
 
 → Worship the Stone; understand the logging API.
+
+**Ex1: The Physics loop** [PLANNED]
