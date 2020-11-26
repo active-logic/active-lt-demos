@@ -1,6 +1,6 @@
 # Frogger tutorial
 
-This is a 3 parts tutorial designed to help users get familiar with stateless behavior trees via Active LT.
+This tutorial is designed to help users get familiar with stateless behavior trees via Active LT.
 
 **[P1: Tasks and statuses](Tutorial/P1-Status.md)**
 
