@@ -39,11 +39,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "lock": {
-    "com.activ.stateless": {
-      "revision": "HEAD",
-      "hash": "181cbb9767bd0958de960d97fb3274a6b8b9fdb8"
-    }
   }
 }
